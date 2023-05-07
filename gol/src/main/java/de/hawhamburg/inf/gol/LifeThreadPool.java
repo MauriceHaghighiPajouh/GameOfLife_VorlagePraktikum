@@ -33,27 +33,25 @@ public class LifeThreadPool {
      * @throws InterruptedException
      */
     public void barrier() throws InterruptedException {
-        
-             
-        // TODO - CL - DONE
 
+        // TODO - CL - DONE
         synchronized (tasks) {
             while (!tasks.isEmpty()) {
                 tasks.wait();
             }
         }
-        
+
     }
 
     /**
      * Calls interrupt() on every thread in this pool.
      */
     public void interrupt() {
-        
-        // TODO Nutzen Sie Streams! - CL - DONE
 
-        Arrays.stream(threads).forEach(Thread::interrupt);
-        
+        // TODO Nutzen Sie Streams! - CL - DONE
+        //Arrays.stream(threads).forEach(Thread::interrupt);
+        Stream.of(threads).forEach(Thread::interrupt);
+
 
     }
 
@@ -64,13 +62,11 @@ public class LifeThreadPool {
      * @throws InterruptedException
      */
     public void joinAndExit() throws InterruptedException {
-        
 
         synchronized (tasks) {
             barrier();
             interrupt();
         }
-        
 
     }
 
@@ -92,29 +88,26 @@ public class LifeThreadPool {
      * @throws InterruptedException
      */
     public Runnable nextTask() throws InterruptedException {
-        // TODO - CL - DONE 
-        Runnable next = null;
-
+        
         synchronized (tasks) {
             while (tasks.isEmpty()) {
                 tasks.wait();
             }
-            next = tasks.remove();
-
+            return tasks.remove();
         }
-        return next;
+        
+
     }
 
     /**
      * Start all threads in this pool.
      */
     public void start() {
-        
+
         for (int i = 0; i < numThreads; i++) {
-            
+
             threads[i] = new LifeThread(this);
             threads[i].start();
-            
 
             // TODO - CL 
         }
