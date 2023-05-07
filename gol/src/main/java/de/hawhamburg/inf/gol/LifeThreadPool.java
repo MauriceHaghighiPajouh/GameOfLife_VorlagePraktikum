@@ -33,6 +33,8 @@ public class LifeThreadPool {
      * @throws InterruptedException
      */
     public void barrier() throws InterruptedException {
+        
+             
         // TODO - CL - DONE
 
         synchronized (tasks) {
@@ -40,15 +42,18 @@ public class LifeThreadPool {
                 tasks.wait();
             }
         }
+        
     }
 
     /**
      * Calls interrupt() on every thread in this pool.
      */
     public void interrupt() {
+        
         // TODO Nutzen Sie Streams! - CL - DONE
 
         Arrays.stream(threads).forEach(Thread::interrupt);
+        
 
     }
 
@@ -59,11 +64,13 @@ public class LifeThreadPool {
      * @throws InterruptedException
      */
     public void joinAndExit() throws InterruptedException {
+        
 
         synchronized (tasks) {
             barrier();
             interrupt();
         }
+        
 
     }
 
@@ -102,6 +109,7 @@ public class LifeThreadPool {
      * Start all threads in this pool.
      */
     public void start() {
+        
         for (int i = 0; i < numThreads; i++) {
             
             threads[i] = new LifeThread(this);
@@ -110,5 +118,6 @@ public class LifeThreadPool {
 
             // TODO - CL 
         }
+
     }
 }
