@@ -1,2 +1,2 @@
 # GameOfLife
-Eine einfache grafische GameOfLife Implementierung
+PM2 Praktikumsaufgabe #3
