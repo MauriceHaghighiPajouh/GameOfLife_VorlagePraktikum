@@ -38,7 +38,7 @@ public class Life {
     /**
      * Applies the rules of the Game of Life and sets new state of the given
      * cell. If a cell has 3 neighbours and is currently DEAD, it is revived in
-     * the next generation. If a cell has less than 2 or more than 3 neightbours
+     * the next generation. If a cell has less than 2 or more than 3 neighbours
      * it will die in the next generation. So if a cell has 2 or 3 neighbours
      * and is currently ALIVE it will stay ALIVE.
      * @param cell

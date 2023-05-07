@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.stream.Stream;
 
 /**
- * A pool of LifeThreads and a queue holding unnables to be processed.
+ * A pool of LifeThreads and a queue holding unables to be processed.
  *
  * @author Christian Lins
  */
@@ -60,7 +60,11 @@ public class LifeThreadPool {
      */
     public void joinAndExit() throws InterruptedException {
 
-        // TODO
+        synchronized(tasks){
+            barrier();
+            interrupt();
+        }
+        
     }
 
     /**

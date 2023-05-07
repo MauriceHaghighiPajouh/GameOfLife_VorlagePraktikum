@@ -28,7 +28,18 @@ public class LifeThread extends Thread {
     
     @Override
     public void run() {
+        //TODO - CL 
         while (!isInterrupted) {
+            
+            try {
+                Runnable task = pool.nextTask();
+                if(task!=null){
+                    task.run();
+                }
+                
+            } catch (InterruptedException ex) {
+                Logger.getLogger(LifeThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             
         }
