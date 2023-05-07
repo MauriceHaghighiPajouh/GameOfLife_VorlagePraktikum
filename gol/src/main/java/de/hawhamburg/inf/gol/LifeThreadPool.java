@@ -60,11 +60,11 @@ public class LifeThreadPool {
      */
     public void joinAndExit() throws InterruptedException {
 
-        synchronized(tasks){
+        synchronized (tasks) {
             barrier();
             interrupt();
         }
-        
+
     }
 
     /**
@@ -73,7 +73,7 @@ public class LifeThreadPool {
      * @param task Runnable containing the work to be done
      */
     public void submit(Runnable task) {
-        // TODO
+        // TODO - CL - DONE
         tasks.add(task);
     }
 
@@ -103,8 +103,12 @@ public class LifeThreadPool {
      */
     public void start() {
         for (int i = 0; i < numThreads; i++) {
+            
+            threads[i] = new LifeThread(this);
             threads[i].start();
-            // TODO - CL - DONE
+            
+
+            // TODO - CL 
         }
     }
 }
