@@ -39,6 +39,7 @@ public class LifeThreadPool {
             while (!tasks.isEmpty()) {
                 tasks.wait();
             }
+
         }
 
     }
@@ -51,7 +52,6 @@ public class LifeThreadPool {
         // TODO Nutzen Sie Streams! - CL - DONE
         //Arrays.stream(threads).forEach(Thread::interrupt);
         Stream.of(threads).forEach(Thread::interrupt);
-
 
     }
 
@@ -77,7 +77,9 @@ public class LifeThreadPool {
      */
     public void submit(Runnable task) {
         // TODO - CL - DONE
-        tasks.add(task);
+        synchronized (tasks) {
+            tasks.add(task);
+        }
     }
 
     /**
@@ -88,14 +90,14 @@ public class LifeThreadPool {
      * @throws InterruptedException
      */
     public Runnable nextTask() throws InterruptedException {
-        
+
         synchronized (tasks) {
             while (tasks.isEmpty()) {
                 tasks.wait();
+                
             }
             return tasks.remove();
         }
-        
 
     }
 
