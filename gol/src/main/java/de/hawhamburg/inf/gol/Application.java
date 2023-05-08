@@ -22,7 +22,7 @@ public class Application {
     public static final float ALIVE_PROBABILITY = 0.3125f;
 
     /* Sleep time between every generation in milliseconds */
-    public static final int SLEEP = 200;
+    public static final int SLEEP = 100;
 
     /**
      * Creates an potentially unlimited stream of Cell objects. The stream uses
@@ -68,21 +68,19 @@ public class Application {
                 Life life = new Life(playground);
                 for (int xi = 0; xi < DIM_X; xi++) {
                     for (int yi = 0; yi < DIM_Y; yi++) {
-
+                        
                         // Submit new life.process() call as runable to the pool
                         // TODO - CL
                         Cell _cell = playground.getCell(xi, yi);
-                        
+
                         final int x = xi;
                         final int y = yi;
-                        
-                        pool.submit(() -> life.process(_cell, x, y));
 
-                        
+                        pool.submit(() -> life.process(_cell, x, y));
 
                     }
                 }
-                
+
                 try {
                     // Wait for all threads to finish this generation
                     pool.barrier();
