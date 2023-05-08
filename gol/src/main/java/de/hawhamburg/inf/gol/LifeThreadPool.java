@@ -35,12 +35,12 @@ public class LifeThreadPool {
     public void barrier() throws InterruptedException {
 
         // TODO - CL - DONE
-        synchronized (tasks) {
-            while (!tasks.isEmpty()) {
-                tasks.wait();
-            }
-
+        synchronized(tasks){
+        while (!tasks.isEmpty()) {
+            tasks.wait();
         }
+        }
+        
 
     }
 
@@ -79,6 +79,7 @@ public class LifeThreadPool {
         // TODO - CL - DONE
         synchronized (tasks) {
             tasks.add(task);
+            tasks.notifyAll();
         }
     }
 
@@ -94,8 +95,9 @@ public class LifeThreadPool {
         synchronized (tasks) {
             while (tasks.isEmpty()) {
                 tasks.wait();
-                
+
             }
+            tasks.notifyAll();
             return tasks.remove();
         }
 
