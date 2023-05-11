@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.stream.Stream;
 
 /**
- * A pool of LifeThreads and a queue holding unables to be processed.
+ * A pool of LifeThreads and a queue holding unbables to be processed.
  *
  * @author Christian Lins
  */
@@ -34,10 +34,9 @@ public class LifeThreadPool {
      */
     public void barrier() throws InterruptedException {
 
-        // TODO - CL - DONE
-        synchronized (this) {
+        synchronized (tasks) {
             while (!tasks.isEmpty()) {
-                this.wait();
+                tasks.wait();
             }
         }
 
@@ -48,8 +47,6 @@ public class LifeThreadPool {
      */
     public void interrupt() {
 
-        // TODO Nutzen Sie Streams! - CL - DONE
-        //Arrays.stream(threads).forEach(Thread::interrupt);
         Stream.of(threads).forEach(Thread::interrupt);
 
     }
@@ -62,7 +59,7 @@ public class LifeThreadPool {
      */
     public void joinAndExit() throws InterruptedException {
 
-        synchronized (this) {
+        synchronized (tasks) {
             barrier();
             interrupt();
         }
@@ -76,10 +73,10 @@ public class LifeThreadPool {
      */
     public void submit(Runnable task) {
         // TODO - CL - DONE
-        synchronized (this) {
+        synchronized (tasks) {
             
             tasks.add(task);
-            this.notifyAll();
+            tasks.notifyAll();
         }
     }
 
@@ -92,12 +89,12 @@ public class LifeThreadPool {
      */
     public Runnable nextTask() throws InterruptedException {
 
-        synchronized (this) {
+        synchronized (tasks) {
             while (tasks.isEmpty()) {
-                this.wait();
+                tasks.wait();
 
             }
-            this.notify();
+            tasks.notify();
             return tasks.remove();
         }
 
