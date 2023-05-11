@@ -90,6 +90,7 @@ public class Application {
 
                 // Submit switch to next generation for each cell and force a
                 // window repaint to update the graphics
+                window.validate();
                 pool.submit(() -> {
                     playground.asList().forEach(cell -> cell.nextGen());
                     window.repaint();
