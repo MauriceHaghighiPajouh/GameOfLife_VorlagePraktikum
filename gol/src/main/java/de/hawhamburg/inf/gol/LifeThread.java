@@ -33,7 +33,7 @@ public class LifeThread extends Thread {
             try {
                 pool.nextTask().run();
             } catch (InterruptedException ex) {
-               
+               interrupt();
                 Logger.getLogger(LifeThread.class.getName()).log(Level.SEVERE, null, ex);
                 
             }

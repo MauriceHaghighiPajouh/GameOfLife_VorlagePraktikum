@@ -35,9 +35,9 @@ public class LifeThreadPool {
     public void barrier() throws InterruptedException {
 
         // TODO - CL - DONE
-        synchronized (tasks) {
+        synchronized (this) {
             while (!tasks.isEmpty()) {
-                tasks.wait();
+                this.wait();
             }
         }
 
@@ -62,7 +62,7 @@ public class LifeThreadPool {
      */
     public void joinAndExit() throws InterruptedException {
 
-        synchronized (tasks) {
+        synchronized (this) {
             barrier();
             interrupt();
         }
@@ -76,9 +76,10 @@ public class LifeThreadPool {
      */
     public void submit(Runnable task) {
         // TODO - CL - DONE
-        synchronized (tasks) {
+        synchronized (this) {
+            
             tasks.add(task);
-            tasks.notifyAll();
+            this.notifyAll();
         }
     }
 
@@ -91,12 +92,12 @@ public class LifeThreadPool {
      */
     public Runnable nextTask() throws InterruptedException {
 
-        synchronized (tasks) {
+        synchronized (this) {
             while (tasks.isEmpty()) {
-                tasks.wait();
+                this.wait();
 
             }
-            tasks.notify();
+            this.notify();
             return tasks.remove();
         }
 
