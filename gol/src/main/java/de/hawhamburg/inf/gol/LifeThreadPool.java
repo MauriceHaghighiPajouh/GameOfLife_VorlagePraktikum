@@ -93,11 +93,11 @@ public class LifeThreadPool {
     public Runnable nextTask() throws InterruptedException {
 
         synchronized (tasks) {
-            while (tasks.isEmpty()) {
+            if (tasks.isEmpty()) {
                 tasks.wait();
 
             }
-            tasks.notifyAll();
+            tasks.notify();
             return tasks.remove();
         }
 
