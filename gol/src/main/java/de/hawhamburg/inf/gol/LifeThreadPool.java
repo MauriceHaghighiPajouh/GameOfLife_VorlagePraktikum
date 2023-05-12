@@ -1,6 +1,5 @@
 package de.hawhamburg.inf.gol;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.stream.Stream;
@@ -34,11 +33,12 @@ public class LifeThreadPool {
      */
     public void barrier() throws InterruptedException {
 
-        synchronized (this) {
+        
             while (!tasks.isEmpty()) {
-                this.wait();
+              
             }
-        }
+      
+        
 
     }
 
@@ -72,7 +72,7 @@ public class LifeThreadPool {
      * @param task Runnable containing the work to be done
      */
     public void submit(Runnable task) {
-        // TODO - CL - DONE
+        
         synchronized (this) {
             
             tasks.add(task);
@@ -95,7 +95,7 @@ public class LifeThreadPool {
 
             }
               
-            this.notify(); 
+          
             return tasks.remove();
         }
 
