@@ -33,12 +33,13 @@ public class LifeThreadPool {
      */
     public void barrier() throws InterruptedException {
 
-        
+        synchronized (this) {
+
             while (!tasks.isEmpty()) {
-              
+                this.wait();
             }
-      
-        
+
+        }
 
     }
 
@@ -72,9 +73,9 @@ public class LifeThreadPool {
      * @param task Runnable containing the work to be done
      */
     public void submit(Runnable task) {
-        
+
         synchronized (this) {
-            
+
             tasks.add(task);
             this.notifyAll();
         }
@@ -94,8 +95,7 @@ public class LifeThreadPool {
                 this.wait();
 
             }
-              
-          
+            this.notify();
             return tasks.remove();
         }
 
